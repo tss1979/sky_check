@@ -1,0 +1,23 @@
+{% extends './base.html'%}
+{% load static %}
+{% block content %}
+  <div class="container px-4 px-lg-5">
+        {% if object %}
+            <div class="col-md-12 mb-5">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h2 class="card-title">{{ object.title}}</h2>
+                        <p class="card-text">{{ object.body }}</p>
+                    </div>
+                    <div class="card-footer">
+                        <a class="btn btn-danger btn-sm" href="{% url 'mailings:message_delete' object.pk %}">Удалить</a>
+                        <a class="btn btn-info btn-sm mb-10" href="{% url 'mailings:message_update' object.pk %}">Изменить</a>
+                    </div>
+
+                </div>
+            </div>
+        {% else %}
+            <h2 class="card-title">Нет такого сообщения</h2>
+        {% endif %}
+        </div>
+{% endblock content %}

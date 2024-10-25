@@ -1,0 +1,44 @@
+{% extends 'mailings/base.html'%}
+{% load static %}
+{% load custom_filters %}
+{% block content %}
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Имя</th>
+            <th scope="col">Почта</th>
+            <th scope="col">Телефон</th>
+            <th scope="col">Заблокирован</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% if object_list %}
+              {% for user in object_list %}
+                <tr>
+                  <th scope="row">{{ user.pk }}</th>
+                  <td>{{ user.name }}</td>
+                  <td>{{ user.email }}</td>
+                  <td>{{ user.phone }}</td>
+                    {% if perms.users.update_is_blocked %}
+                        {% if user.is_blocked %}
+                            <td>Заблокирован</td>
+                        {% else %}
+                             <td>Не Заблокирован</td>
+                        {% endif %}
+                    {% endif %}
+                  <td>
+                      {% if not user.is_blocked %}
+                        <a class="btn btn-warning  btn-sm mr-10" href="{% url 'users:block_user' user.pk %}">Заблокировать</a>
+                      {% else %}
+                        <a class="btn btn-success  btn-sm mr-10" href="{% url 'users:unblock_user' user.pk %}">Разблокировать</a>
+                      {% endif %}
+                  </td>
+                </tr>
+              {% endfor %}
+            {% else %}
+                <h2 class="card-title">Нет клиентов</h2>
+            {% endif %}
+        </tbody>
+    </table>
+{% endblock content %}

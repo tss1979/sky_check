@@ -1,0 +1,32 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container px-5">
+                <a class="navbar-brand" href="/">Сервис рассылок</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="/">Домой</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'mailings:clients' %}">Клиенты</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'mailings:messages' %}">Сообщения</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'mailings:notifications' %}">Рассылки</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'blog:posts' %}">Блог</a></li>
+                        {% if perms.users.view_clients_list %}
+                            <li class="nav-item"><a class="nav-link" href="{% url 'users:users' %}">Пользователи</a></li>
+                        {% endif %}
+                        {% if not user.is_authenticated %}
+                            <li class="nav-item"><a class="nav-link" href="{% url 'users:login'%}">Войти</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{% url 'users:register'%}">Зарегистрироваться</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{% url 'users:recover_password'%}">Восстановить пароль</a></li>
+                        {% else %}
+                            <li class="nav-item">
+                                <form style="display: inline" method="post" action="{% url 'users:logout' %}">
+                                    {% csrf_token %}
+                                    <button style="background-color: inherit; border: none" class="nav-link" type="submit">Выйти</button>
+                                </form>
+                            </li>
+                            <li class="nav-item"><a class="nav-link" href="{% url 'mailings:attempts'%}">Попытки</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{% url 'users:profile'%}">Профиль</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+</nav>

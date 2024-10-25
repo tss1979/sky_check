@@ -1,0 +1,16 @@
+{% extends './base.html'%}
+{% load static %}
+{% block content %}
+    <div class="container px-4">
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            {% if object %}
+                <button class="btn btn-success" type="submit">Изменить</button>
+                <a href="{% url 'mailings:notification_detail'  object.pk %}" class="btn btn-warning" type="submit">Отменить изменения</a>
+            {% else %}
+              <button class="btn btn-success" type="submit">Добавить</button>
+            {% endif %}
+          </form>
+    </div>
+{% endblock content %}

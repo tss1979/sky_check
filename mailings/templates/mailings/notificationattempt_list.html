@@ -1,0 +1,35 @@
+{% extends './base.html'%}
+{% load static %}
+{% load custom_filters %}
+{% block content %}
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Время последней попытки</th>
+            <th scope="col">Рассылка</th>
+            <th scope="col">Статус отправки</th>
+            <th scope="col">Сообщение сервера</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% if object_list %}
+              {% for attempt in object_list %}
+                <tr>
+                  <th scope="row">{{ attempt.pk }}</th>
+                  <td>{{ attempt.last_attempt_at|date:'Y-m-d' }}</td>
+                  <td>{{ attempt.notification }}</td>
+                  {% if attempt.is_sent %}
+                        <td>Отправлено Успешно</td>
+                  {% else %}
+                    <td>Не отправлено</td>
+                  {% endif %}
+                  <td>{{ attempt.server_message }}</td>
+                </tr>
+              {% endfor %}
+            {% else %}
+                <h2 class="card-title">Нет попыток</h2>
+            {% endif %}
+        </tbody>
+    </table>
+{% endblock content %}
